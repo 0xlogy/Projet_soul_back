@@ -1,1 +1,0 @@
-/nix/store/55h89a2wp6vi5dndcyz8c5sgl2ahmr4r-postgresql-15.8/bin/postgres "-D" "/home/logy/Documents/SE_Discord/Projet_soul_back/pgdata" "-p" "5433"
