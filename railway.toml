@@ -1,0 +1,15 @@
+# railway.toml
+[build]
+builder = "nixpacks"
+buildCommand = "go build -o bin/app ./cmd/server"
+
+[deploy]
+startCommand = "./bin/app"
+restartPolicyType = "on_failure"
+
+[[ports]]
+port = "8080"
+protocol = "http"
+
+[variables]
+GO_ENV = "production"
