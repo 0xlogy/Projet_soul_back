@@ -1,10 +1,10 @@
 # railway.toml
 [build]
-builder = "DOCKERFILE"
-dockerfile = "Dockerfile"
+builder = "nixpacks"
+buildCommand = "go build -o main cmd/server/main.go"
 
 [deploy]
-startCommand = "./bin/app"
+startCommand = "./main"
 restartPolicyType = "on_failure"
 
 [[ports]]
