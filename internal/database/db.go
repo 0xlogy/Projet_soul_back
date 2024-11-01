@@ -13,23 +13,28 @@ var DB *gorm.DB
 
 // InitDB initialise la connexion à la base de données
 func InitDB() (*gorm.DB, error) {
-    dbURL := fmt.Sprintf(
-        "host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
-        os.Getenv("PGHOST"),
-        os.Getenv("PGUSER"),
-        os.Getenv("PGPASSWORD"),
-        "soulsitedb",
-        os.Getenv("PGPORT"),
-    )
+    // Essaie d'abord d'utiliser DATABASE_URL
+    dbURL := os.Getenv("DATABASE_URL")
+    
+    // Si DATABASE_URL n'existe pas, construit l'URL manuellement
+    if dbURL == "" {
+        dbURL = fmt.Sprintf(
+            "host=%s user=%s password=%s dbname=%s port=%s sslmode=require",
+            os.Getenv("PGHOST"),
+            os.Getenv("PGUSER"),
+            os.Getenv("PGPASSWORD"),
+            "soulsitedb",
+            os.Getenv("PGPORT"),
+        )
+    }
+
+    // Log pour debug (à retirer en production)
+    fmt.Printf("Tentative de connexion avec l'URL: %s\n", dbURL)
 
     db, err := gorm.Open(postgres.Open(dbURL), &gorm.Config{})
     if err != nil {
         return nil, fmt.Errorf("erreur de connexion à la base de données: %v", err)
     }
-
-    if err := db.AutoMigrate(&models.User{}, &models.Game{}, &models.Score{}, &models.Duel{}); err != nil {
-        return nil, fmt.Errorf("erreur lors de la migration: %v", err)
-      }
 
     DB = db
     return db, nil
