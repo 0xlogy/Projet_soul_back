@@ -1,7 +1,7 @@
 # railway.toml
 [build]
-builder = "nixpacks"
-buildCommand = "go build -o bin/app ./cmd/server"
+builder = "DOCKERFILE"
+dockerfile = "Dockerfile"
 
 [deploy]
 startCommand = "./bin/app"
